@@ -24,7 +24,7 @@ jobs:
           project_id: nftcloner
           region: us-east1
           entry_point: Entrypoint
-          env_vars: NFT_CONTRACT_ADDRESS=${{ secrets.NFT_CONTRACT_ADDRESS }}
+          env_vars: NFT_CONTRACT_ADDRESS=${{ secrets.NFT_CONTRACT_ADDRESS }},ETHEREUM_NODE_URL=${{ secrets.ETHEREUM_NODE_URL }}
           memory_mb: 128
           min_instances: 0
           max_instances: 2
