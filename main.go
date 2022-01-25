@@ -12,7 +12,7 @@ import (
 var mux = newMux()
 
 func Entrypoint(w http.ResponseWriter, r *http.Request) {
-	logrus.SetFormatter(&logrus.TextFormatter{})
+	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logrus.SetLevel(logrus.TraceLevel)
 
 	mux.ServeHTTP(w, r)
