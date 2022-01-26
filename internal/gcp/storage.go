@@ -25,6 +25,7 @@ func (sc *storageClient) Store(ctx context.Context, bucket, object string, data 
 	obj := sc.client.Bucket(bucket).Object(object)
 
 	wc := obj.NewWriter(ctx)
+	wc.CacheControl = "no-store"
 	_, err := wc.Write(data)
 	if err != nil {
 		return err
