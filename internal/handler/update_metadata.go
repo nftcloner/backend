@@ -27,7 +27,7 @@ type MetadataInfo struct {
 	EOA         string    `datastore:"eoa"`
 	Name        string    `datastore:"name"`
 	Contract    string    `datastore:"contract"`
-	TokenId     uint64    `datastore:"token_id"`
+	TokenId     int64     `datastore:"token_id"`
 	MetadataURI string    `datastore:"metadata_uri"`
 	Time        time.Time `datastore:"time"`
 }
@@ -138,7 +138,7 @@ func UpdateMetadata(w http.ResponseWriter, r *http.Request) {
 		EOA:         userEOA.Hex(),
 		Name:        metadataInfo.Name,
 		Contract:    contract.Hex(),
-		TokenId:     tokenId,
+		TokenId:     int64(tokenId),
 		MetadataURI: metadataInfo.TokenMetadata,
 		Time:        time.Now(),
 	}); err != nil {
