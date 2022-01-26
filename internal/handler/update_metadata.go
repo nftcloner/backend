@@ -153,7 +153,7 @@ func UpdateMetadata(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: refresh cache GCP Storage & CloudFlare
 
-	if err = opensea.RefreshCache(contract, userTokenId); err != nil {
+	if err = opensea.RefreshCache(common.HexToAddress(os.Getenv("NFT_CONTRACT_ADDRESS")), userTokenId); err != nil {
 		errorResponse(w, http.StatusInternalServerError, errors.Wrap(err, "failed to refresh cache"), ctxValues)
 		return
 	}
