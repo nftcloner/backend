@@ -32,6 +32,9 @@ type MetadataInfo struct {
 }
 
 func UpdateMetadata(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
 	if err := r.ParseForm(); err != nil {
 		response(w, http.StatusBadRequest, M{"error": err.Error()})
 		return
