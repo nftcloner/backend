@@ -64,11 +64,9 @@ func VerifyTypedData(primaryType string, domain apitypes.TypedDataDomain, types 
 		return common.Address{}, errors.Errorf("invalid signature length: %d", len(signature))
 	}
 
-	if signature[64] != 27 && signature[64] != 28 {
-		return common.Address{}, errors.Errorf("invalid recovery id: %d", signature[64])
+	if signature[64] == 27 || signature[64] == 28 {
+		signature[64] -= 27 // Transform V from 27/28 to 0/1
 	}
-
-	signature[64] -= 27
 
 	challengeHash, err := hashTypedData(primaryType, domain, types, message)
 	if err != nil {
