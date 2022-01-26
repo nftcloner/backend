@@ -15,7 +15,7 @@ func hashTypedData(primaryType string, domain apitypes.TypedDataDomain, types ap
 		{Name: "name", Type: "string"},
 		{Name: "version", Type: "string"},
 		{Name: "chainId", Type: "uint256"},
-		{Name: "verifyingContract", Type: "string"},
+		{Name: "verifyingContract", Type: "address"},
 	}
 
 	signerData := apitypes.TypedData{

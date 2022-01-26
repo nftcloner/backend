@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -145,7 +146,7 @@ func UpdateMetadata(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = storageClient.Store(r.Context(), "cdn.nftcloner.xyz", fmt.Sprintf("nft/%d.json", tokenId), rawMetadata, true); err != nil {
+	if err = storageClient.Store(r.Context(), "cdn.nftcloner.xyz", fmt.Sprintf("nft/%d.json", userTokenId), rawMetadata, true); err != nil {
 		errorResponse(w, http.StatusInternalServerError, errors.Wrap(err, "failed to store metadata"), ctxValues)
 		return
 	}
@@ -166,7 +167,7 @@ func VerifySignature(contract common.Address, tokenId uint64, signature []byte) 
 		Name:              "NFTCloner",
 		Version:           "1",
 		ChainId:           math.NewHexOrDecimal256(1),
-		VerifyingContract: os.Getenv("NFT_CONTRACT_ADDRESS"),
+		VerifyingContract: strings.ToLower(os.Getenv("NFT_CONTRACT_ADDRESS")),
 	}
 	types := apitypes.Types{
 		"UpdateMetadata": []apitypes.Type{
@@ -175,7 +176,7 @@ func VerifySignature(contract common.Address, tokenId uint64, signature []byte) 
 		},
 	}
 	message := apitypes.TypedDataMessage{
-		"contract": contract.Hex(),
+		"contract": strings.ToLower(contract.Hex()),
 		"tokenId":  math.NewHexOrDecimal256(int64(tokenId)),
 	}
 
