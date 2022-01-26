@@ -12,7 +12,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-func TokenByOwner(ctx context.Context, owner common.Address) (int64, error) {
+func TokenByOwner(ctx context.Context, owner common.Address) (uint64, error) {
 	client, err := ethclient.DialContext(ctx, os.Getenv("ETHEREUM_NODE_URL"))
 	if err != nil {
 		return 0, err
@@ -44,5 +44,5 @@ func TokenByOwner(ctx context.Context, owner common.Address) (int64, error) {
 		return 0, err
 	}
 
-	return (outputs[0].(*big.Int)).Int64(), nil
+	return (outputs[0].(*big.Int)).Uint64(), nil
 }

@@ -27,7 +27,7 @@ type MetadataInfo struct {
 	EOA         string    `datastore:"eoa"`
 	Name        string    `datastore:"name"`
 	Contract    string    `datastore:"contract"`
-	TokenId     string    `datastore:"token_id"`
+	TokenId     uint64    `datastore:"token_id"`
 	MetadataURI string    `datastore:"metadata_uri"`
 	Time        time.Time `datastore:"time"`
 }
@@ -91,7 +91,7 @@ func UpdateMetadata(w http.ResponseWriter, r *http.Request) {
 		errorResponse(w, http.StatusInternalServerError, errors.Wrap(err, "failed to get tokenId"), ctxValues)
 		return
 	}
-	userTokenIdStr := strconv.FormatInt(userTokenId, 10)
+	userTokenIdStr := strconv.FormatUint(userTokenId, 10)
 	ctxValues["userTokenId"] = userTokenId
 
 	datastoreClient, err := gcp.NewDatastoreClient(r.Context(), "nftcloner")
@@ -138,7 +138,7 @@ func UpdateMetadata(w http.ResponseWriter, r *http.Request) {
 		EOA:         userEOA.Hex(),
 		Name:        metadataInfo.Name,
 		Contract:    contract.Hex(),
-		TokenId:     userTokenIdStr,
+		TokenId:     tokenId,
 		MetadataURI: metadataInfo.TokenMetadata,
 		Time:        time.Now(),
 	}); err != nil {
@@ -153,7 +153,7 @@ func UpdateMetadata(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: refresh cache GCP Storage & CloudFlare
 
-	if err = opensea.RefreshCache(contract, tokenId); err != nil {
+	if err = opensea.RefreshCache(contract, userTokenId); err != nil {
 		errorResponse(w, http.StatusInternalServerError, errors.Wrap(err, "failed to refresh cache"), ctxValues)
 		return
 	}
