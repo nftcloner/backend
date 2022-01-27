@@ -158,6 +158,8 @@ func UpdateMetadata(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logrus.WithFields(ctxValues).Info("successfully stored metadata")
+
 	response(w, http.StatusOK, string(rawMetadata))
 }
 
